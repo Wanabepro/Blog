@@ -1,0 +1,41 @@
+.new-tag {
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
+
+  &__input {
+    max-width: 30rem;
+    height: 4rem;
+    border: 1px solid #d9d9d9;
+    border-radius: 0.4rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.6rem;
+
+    &::placeholder {
+      color: #777;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: 1.8rem;
+  }
+
+  &__button {
+    padding: 0.8rem 1.6rem;
+    font-size: 1.6rem;
+    border: 1px solid;
+    border-radius: 0.4rem;
+    background-color: #fff;
+
+    &--delete {
+      border-color: #f5222d;
+      color: #f5222d;
+    }
+
+    &--add {
+      border-color: #1890ff;
+      color: #1890ff;
+    }
+  }
+}

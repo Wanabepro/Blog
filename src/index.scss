@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: #262626;
+}
+
+body {
+  background-color: #ebeef3;
+  padding-bottom: 2.6rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: #1890ff;
+  text-decoration: none;
+}

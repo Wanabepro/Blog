@@ -1,0 +1,35 @@
+.registration {
+  &__heading {
+    font-size: 2rem;
+    font-weight: 500;
+    width: fit-content;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+  }
+
+  &__block {
+    margin-bottom: 2rem;
+  }
+
+  &__delimiter {
+    height: 1px;
+    width: 100%;
+    background-color: #e8e8e8;
+    margin-bottom: 1rem;
+  }
+
+  &__checkbox-block {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    font-size: 1.4rem;
+    color: #595959;
+    margin-bottom: 2rem;
+  }
+
+  &__redirect {
+    font-size: 1.2rem;
+    color: #8c8c8c;
+    text-align: center;
+  }
+}

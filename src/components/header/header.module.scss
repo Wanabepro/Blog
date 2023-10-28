@@ -1,0 +1,63 @@
+.header {
+  height: 8rem;
+  background-color: #fff;
+  padding: 2.2rem 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__heading {
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+
+  &__authorization {
+    display: flex;
+    gap: 4rem;
+  }
+
+  &__button {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    font-family: 'Inter' sans-serif;
+
+    &--accent {
+      padding: 1rem 1.8rem;
+      border: 1px solid #52c41a;
+      border-radius: 0.5rem;
+      color: #52c41a;
+    }
+
+    &--secondary {
+      padding: 1rem 1.8rem;
+      border: 1px solid #262626;
+      border-radius: 0.5rem;
+    }
+
+    &--article {
+      padding: 0.6rem 1rem;
+      border: 1px solid #52c41a;
+      border-radius: 0.5rem;
+      color: #52c41a;
+      font-size: 1.4rem;
+      height: fit-content;
+    }
+  }
+
+  &__authorized {
+    display: flex;
+    gap: 2.6rem;
+    align-items: center;
+  }
+
+  &__user-info {
+    display: flex;
+    gap: 1.3rem;
+    align-items: center;
+  }
+
+  &__user-name {
+    font-size: 1.8rem;
+  }
+}

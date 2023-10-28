@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+
+  &__heading-block {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  &__heading {
+    font-weight: 400;
+    font-size: 2rem;
+
+    & a {
+      text-decoration: none;
+    }
+  }
+
+  &__likes {
+    font-size: 1.2rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  &__right {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  &__user-info {
+    width: fit-content;
+
+    & p {
+      width: fit-content;
+      white-space: nowrap;
+
+      &:first-child {
+        font-size: 1.8rem;
+      }
+
+      &:last-child {
+        font-size: 1.2rem;
+        color: #777;
+      }
+    }
+
+    & img {
+      display: block;
+    }
+  }
+}

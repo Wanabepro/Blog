@@ -1,0 +1,19 @@
+.login {
+  &__heading {
+    font-size: 2rem;
+    font-weight: 500;
+    width: fit-content;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+  }
+
+  &__last-input {
+    margin-bottom: 2rem;
+  }
+
+  &__redirect {
+    font-size: 1.2rem;
+    color: #8c8c8c;
+    text-align: center;
+  }
+}

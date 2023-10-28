@@ -1,0 +1,20 @@
+.input-block {
+  display: block;
+  margin-bottom: 1.2rem;
+  font-size: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__input {
+    border-radius: 0.4rem;
+    border: 1px solid #d9d9d9;
+    height: 4rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.6rem;
+
+    &::placeholder {
+      color: #bfbfbf;
+    }
+  }
+}

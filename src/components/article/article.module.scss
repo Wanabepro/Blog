@@ -1,0 +1,52 @@
+.article {
+  max-width: 94rem;
+  min-height: 80rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  margin: 0 auto;
+  margin-top: 2.4rem;
+  padding: 1.6rem 2rem;
+
+  &__description-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+  }
+
+  &__description {
+    width: 80%;
+    font-size: 1.2rem;
+    line-height: 2.2rem;
+    color: #777;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 1.2rem;
+  }
+
+  &__button {
+    font-size: 1.4rem;
+    padding: 0.6rem 1.6rem;
+    border-radius: 0.5rem;
+    background: none;
+    border: 1px solid;
+
+    &--delete {
+      border-color: #f5222d;
+      color: #f5222d;
+    }
+
+    &--edit {
+      border-color: #52c41a;
+      color: #52c41a;
+    }
+  }
+
+  &__text {
+    font-size: 1.4rem;
+    line-height: 2.8rem;
+  }
+}
