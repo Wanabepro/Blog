@@ -1,21 +1,22 @@
 import React from 'react'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import styles from './header.module.scss'
 
 function Header() {
-  const isAuthorized = true
+  const isAuthorized = false
 
   return (
     <header className={styles.header}>
       <h1 className={styles.header__heading}>Realworld Blog</h1>
       {!isAuthorized && (
         <div className={styles.header__authorization}>
-          <button className={styles.header__button} type="button">
+          <Link className={styles.header__button} to="/sign-in">
             Sign In
-          </button>
-          <button className={`${styles.header__button} ${styles['header__button--accent']}`} type="button">
+          </Link>
+          <Link to="/sign-up" className={`${styles.header__button} ${styles['header__button--accent']}`} type="button">
             Sign Up
-          </button>
+          </Link>
         </div>
       )}
       {isAuthorized && (

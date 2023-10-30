@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import Form from '../form'
 import Input from '../input'
@@ -27,9 +28,9 @@ function Registration() {
       <Button text="Create" />
       <p className={styles.registration__redirect}>
         {'Already have an account? '}
-        <a className={styles.registration__link} href="google.com">
+        <Link to="/sign-in" className={styles.registration__link}>
           Sign in.
-        </a>
+        </Link>
       </p>
     </Form>
   )

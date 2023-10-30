@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import Form from '../form'
 import Input from '../input'
@@ -18,9 +19,9 @@ function Login() {
           // eslint-disable-next-line quotes
           "Don't have an account? "
         }
-        <a className={styles.login__link} href="google.com">
-          Sign in.
-        </a>
+        <Link to="/sign-up" className={styles.login__link}>
+          Sign up.
+        </Link>
       </p>
     </Form>
   )

@@ -14,13 +14,15 @@
   &__authorization {
     display: flex;
     gap: 4rem;
+    align-items: center;
   }
 
   &__button {
+    display: block;
     background: none;
     border: none;
     font-size: 1.8rem;
-    font-family: 'Inter' sans-serif;
+    color: #262626;
 
     &--accent {
       padding: 1rem 1.8rem;

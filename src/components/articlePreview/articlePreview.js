@@ -5,15 +5,11 @@ import ArticleHeader from '../articleHeader'
 
 import styles from './articlePreview.module.scss'
 
-function ArticlePreview() {
+function ArticlePreview({ description, ...headerProps }) {
   return (
     <article className={styles.article}>
-      <ArticleHeader />
-      <p className={styles.article__text}>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci doloremque ipsam placeat a labore voluptas
-        sequi optio saepe animi laudantium, recusandae earum, reprehenderit quidem accusamus exercitationem mollitia
-        magni facere sunt.
-      </p>
+      <ArticleHeader {...headerProps} />
+      <p className={styles.article__text}>{description}</p>
     </article>
   )
 }

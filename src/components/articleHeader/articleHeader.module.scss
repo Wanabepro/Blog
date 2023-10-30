@@ -25,6 +25,11 @@
     align-items: center;
   }
 
+  &__tags {
+    display: flex;
+    gap: 0.8rem;
+  }
+
   &__right {
     display: flex;
     gap: 1.2rem;
@@ -40,6 +45,7 @@
 
       &:first-child {
         font-size: 1.8rem;
+        margin-bottom: 0.5rem;
       }
 
       &:last-child {
@@ -47,9 +53,12 @@
         color: #777;
       }
     }
+  }
 
-    & img {
-      display: block;
-    }
+  &__img {
+    display: block;
+    width: 4.6rem;
+    height: 4.6rem;
+    border-radius: 50%;
   }
 }
