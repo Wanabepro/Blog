@@ -8,8 +8,8 @@ import ArticlePreview from '../articlePreview'
 import styles from './aticleList.module.scss'
 
 function ArticleList() {
-  const [offset, setOffset] = useState(0)
-  const { data } = useGetArticlesQuery(offset)
+  const [page, setPage] = useState(1)
+  const { data } = useGetArticlesQuery((page - 1) * 20)
   if (data) {
     const { articles, articlesCount: total } = data
 
@@ -24,9 +24,9 @@ function ArticleList() {
         </ul>
         <Space direction="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
           <Pagination
-            onChange={(offset) => setOffset((offset - 1) * 20)}
+            onChange={() => setPage((prevPage) => prevPage + 1)}
             hideOnSinglePage
-            current={offset / 20 + 1}
+            current={page}
             pageSize={20}
             total={total}
             showSizeChanger={false}
