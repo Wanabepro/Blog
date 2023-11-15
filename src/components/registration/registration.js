@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom'
 import { useForm } from 'react-hook-form'
 
@@ -17,6 +17,7 @@ function Registration() {
     handleSubmit,
     watch,
     formState: { errors },
+    setError,
   } = useForm({ mode: 'all' })
 
   const password = watch('password')
@@ -33,16 +34,21 @@ function Registration() {
     registerUser({ user })
   }
 
-  let errorMessage
+  const [errorMessage, setErrorMessage] = useState('')
+  useEffect(() => {
+    if (error?.status === 422) {
+      Object.entries(error.data.errors).forEach((entry) => {
+        // eslint-disable-next-line prefer-const
+        let [field, message] = entry
 
-  if (isError) {
-    if (error.status === 422) {
-      errorMessage = `${Object.keys(error.data.errors).join(' and ')} is already taken`
-      errorMessage = errorMessage[0].toUpperCase() + errorMessage.slice(1)
+        message = `${field[0].toUpperCase()}${field.slice(1)} ${message.slice(0, -1)}`
+
+        setError(field, { type: 'server', message })
+      })
     } else {
-      errorMessage = error.error
+      setErrorMessage(error?.error)
     }
-  }
+  }, [isError])
 
   if (isSuccess) {
     const { username, email, token } = data.user
@@ -130,7 +136,7 @@ function Registration() {
           </Link>
         </p>
       </Form>
-      {isError && <Error status={error?.status} message={errorMessage} reset={reset} />}
+      {isError && error.status !== 422 && <Error status={error?.status} message={errorMessage} reset={reset} />}
     </>
   )
 }
