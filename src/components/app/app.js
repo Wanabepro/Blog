@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom/cjs/rea
 import Header from '../header'
 import Registration from '../registration'
 import Login from '../login'
-// import Settings from '../settings'
+import Settings from '../settings'
 import ArticleList from '../articleList'
 // import Article from '../article'
 // import NewArticle from '../newArticle'
@@ -22,6 +22,9 @@ function App() {
         </Route>
         <Route path="/sign-up">
           <Registration />
+        </Route>
+        <Route path="/profile">
+          <Settings />
         </Route>
       </Switch>
     </Router>

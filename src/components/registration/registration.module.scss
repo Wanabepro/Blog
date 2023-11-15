@@ -18,13 +18,21 @@
     margin-bottom: 1rem;
   }
 
+  &__checkbox-label {
+    display: block;
+    margin-bottom: 2rem;
+    font-size: 1.4rem;
+  }
+
   &__checkbox-block {
     display: flex;
     gap: 0.8rem;
     align-items: flex-start;
-    font-size: 1.4rem;
     color: #595959;
-    margin-bottom: 2rem;
+  }
+
+  &__error {
+    color: #f5222d;
   }
 
   &__redirect {

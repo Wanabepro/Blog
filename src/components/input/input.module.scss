@@ -16,5 +16,17 @@
     &::placeholder {
       color: #bfbfbf;
     }
+
+    &--error {
+      outline: 1px solid #f5222d;
+
+      &:focus {
+        outline: 1px solid #f5222d;
+      }
+    }
+  }
+
+  &__error {
+    color: #f5222d;
   }
 }

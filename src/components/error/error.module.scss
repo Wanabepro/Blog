@@ -1,0 +1,42 @@
+.error {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1.5rem 2rem;
+  color: #fff;
+  background-color: #e8666d;
+  border: 1px solid #f5222d;
+  border-radius: 0.6rem;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  &__header {
+    font-size: 2rem;
+    font-weight: normal;
+  }
+
+  &__status {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  &__message {
+    font-size: 1.6rem;
+  }
+
+  &__close {
+    font-size: 0;
+    background: none;
+    border: none;
+    background: no-repeat url('./close.svg');
+    background-size: contain;
+    width: 2rem;
+    height: 2rem;
+  }
+}

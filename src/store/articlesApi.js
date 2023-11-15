@@ -1,15 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import api from './api'
 
-const articlesApi = createApi({
-  reducerPath: 'tickets',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
+const articlesApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getArticles: builder.query({
       query: (offset) => `/articles?offset=${offset}`,
     }),
   }),
+  overrideExisting: false,
 })
 
-export const { useGetArticlesQuery } = articlesApi
+const { useGetArticlesQuery } = articlesApi
 
-export default articlesApi
+export default useGetArticlesQuery

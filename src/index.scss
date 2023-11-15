@@ -27,3 +27,7 @@ a {
   color: #1890ff;
   text-decoration: none;
 }
+
+:focus {
+  outline: 1px solid #1890ff;
+}
