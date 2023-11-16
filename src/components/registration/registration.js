@@ -99,7 +99,7 @@ function Registration() {
           registerOptions={{
             required: 'Password is required',
             minLength: { value: 6, message: 'Your password needs to be at least 6 characters.' },
-            maxLength: { value: 20, message: 'Password needs to be no more than 20 characters' },
+            maxLength: { value: 40, message: 'Password needs to be no more than 40 characters' },
           }}
           errorMessage={errors.password?.message}
         />
