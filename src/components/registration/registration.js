@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom'
 import { useForm } from 'react-hook-form'
 
-import useRegisterUserMutation from '../../store/usersApi'
+import { useRegisterMutation } from '../../store/usersApi'
 import Form from '../form'
 import Input from '../input'
 import Button from '../button'
@@ -22,7 +22,7 @@ function Registration() {
 
   const password = watch('password')
 
-  const [registerUser, { isSuccess, data, isError, error, reset }] = useRegisterUserMutation()
+  const [registerUser, { isSuccess, data, isError, error, reset }] = useRegisterMutation()
 
   const onSubmit = (userData) => {
     const user = {
@@ -35,6 +35,7 @@ function Registration() {
   }
 
   const [errorMessage, setErrorMessage] = useState('')
+
   useEffect(() => {
     if (error?.status === 422) {
       Object.entries(error.data.errors).forEach((entry) => {
@@ -48,13 +49,10 @@ function Registration() {
     } else {
       setErrorMessage(error?.error)
     }
-  }, [isError])
+  }, [isError, error])
 
   if (isSuccess) {
-    const { username, email, token } = data.user
-    localStorage.setItem('username', username)
-    localStorage.setItem('email', email)
-    localStorage.setItem('token', token)
+    Object.entries(data.user).forEach((entry) => localStorage.setItem(entry[0], entry[1]))
   }
 
   return (

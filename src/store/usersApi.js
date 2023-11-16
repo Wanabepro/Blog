@@ -2,12 +2,13 @@ import api from './api'
 
 const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    registerUser: builder.mutation({
+    register: builder.mutation({
       query: (body) => ({ url: '/users', method: 'POST', body }),
+    }),
+    login: builder.mutation({
+      query: (body) => ({ url: '/users/login', method: 'POST', body }),
     }),
   }),
 })
 
-const { useRegisterUserMutation } = usersApi
-
-export default useRegisterUserMutation
+export const { useRegisterMutation, useLoginMutation } = usersApi
