@@ -15,7 +15,6 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
-    // setError,
   } = useForm({ mode: 'all' })
 
   const [login, { isSuccess, data, isError, error, reset }] = useLoginMutation()
