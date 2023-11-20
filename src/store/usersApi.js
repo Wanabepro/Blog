@@ -8,10 +8,12 @@ const usersApi = api.injectEndpoints({
     login: builder.mutation({
       query: (body) => ({ url: '/users/login', method: 'POST', body }),
     }),
+    getUser: builder.query({
+      query: () => ({ url: '/user' }),
+    }),
     updateUser: builder.mutation({
       query: (body) => ({
         url: '/user',
-        headers: { Authorization: ` ${localStorage.getItem('token')}` },
         method: 'PUT',
         body,
       }),
@@ -19,4 +21,10 @@ const usersApi = api.injectEndpoints({
   }),
 })
 
-export const { useRegisterMutation, useLoginMutation, useUpdateUserMutation } = usersApi
+// prettier-ignore
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useGetUserQuery,
+  useUpdateUserMutation,
+} = usersApi

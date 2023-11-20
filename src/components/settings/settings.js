@@ -1,5 +1,5 @@
-/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
 import { useUpdateUserMutation } from '../../store/usersApi'
@@ -7,10 +7,13 @@ import Form from '../form'
 import Input from '../input'
 import Button from '../button'
 import Error from '../error'
+import { setupCredentials } from '../../store/credentialsSlice'
 
 import styles from './settings.module.scss'
 
 function Settings() {
+  const dispatch = useDispatch()
+
   const {
     register,
     handleSubmit,
@@ -50,9 +53,12 @@ function Settings() {
     updateUser({ user })
   }
 
-  if (isSuccess) {
-    Object.entries(data.user).forEach((entry) => localStorage.setItem(entry[0], entry[1]))
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      localStorage.setItem('token', data.user.token)
+      dispatch(setupCredentials(data.user))
+    }
+  }, [isSuccess, data])
 
   return (
     <>
@@ -112,7 +118,9 @@ function Settings() {
         />
         <Button text="Save" />
       </Form>
-      {isError && error.status !== 422 && <Error message={errorMessage} status={error?.status} reset={reset} />}
+      {isError && error.status !== 422 && (
+        <Error message={errorMessage} status={error?.status} reset={reset} />
+      )}
     </>
   )
 }

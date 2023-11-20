@@ -24,7 +24,7 @@
       "presets": ["@babel/preset-react"]
     }
   },
-  "plugins": ["react", "prettier", "import"],
+  "plugins": ["react", "import", "prettier"],
   "rules": {
     "no-param-reassign": ["error", { "props": false }],
     "no-shadow": "off",

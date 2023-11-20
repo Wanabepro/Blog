@@ -1,17 +1,20 @@
-/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom/cjs/react-router-dom'
+import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import { useRegisterMutation } from '../../store/usersApi'
 import Form from '../form'
 import Input from '../input'
 import Button from '../button'
 import Error from '../error'
+import { setupCredentials } from '../../store/credentialsSlice'
 
 import styles from './registration.module.scss'
 
 function Registration() {
+  const dispatch = useDispatch()
+
   const {
     register,
     handleSubmit,
@@ -51,9 +54,12 @@ function Registration() {
     }
   }, [isError, error])
 
-  if (isSuccess) {
-    Object.entries(data.user).forEach((entry) => localStorage.setItem(entry[0], entry[1]))
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      localStorage.setItem('token', data.user.token)
+      dispatch(setupCredentials(data.user))
+    }
+  }, [isSuccess, data])
 
   return (
     <>
@@ -120,7 +126,9 @@ function Registration() {
             <input
               className={styles.registration__checkbox}
               type="checkbox"
-              {...register('agreed', { required: 'You should agree with personal information processing policy' })}
+              {...register('agreed', {
+                required: 'You should agree with personal information processing policy',
+              })}
             />
             <span>I agree to the processing of my personal information</span>
           </div>
@@ -134,7 +142,9 @@ function Registration() {
           </Link>
         </p>
       </Form>
-      {isError && error.status !== 422 && <Error status={error?.status} message={errorMessage} reset={reset} />}
+      {isError && error.status !== 422 && (
+        <Error status={error?.status} message={errorMessage} reset={reset} />
+      )}
     </>
   )
 }

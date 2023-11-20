@@ -1,8 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router-dom/cjs/react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import { useLoginMutation } from '../../store/usersApi'
+import { setupCredentials } from '../../store/credentialsSlice'
 import Form from '../form'
 import Input from '../input'
 import Button from '../button'
@@ -11,6 +13,8 @@ import Error from '../error'
 import styles from './login.module.scss'
 
 function Login() {
+  const dispatch = useDispatch()
+
   const {
     register,
     handleSubmit,
@@ -39,9 +43,12 @@ function Login() {
     }
   }
 
-  if (isSuccess) {
-    Object.entries(data.user).forEach((entry) => localStorage.setItem(entry[0], entry[1]))
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      localStorage.setItem('token', data.user.token)
+      dispatch(setupCredentials(data.user))
+    }
+  }, [isSuccess, data])
 
   return (
     <>
