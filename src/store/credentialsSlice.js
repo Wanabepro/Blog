@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialState = {
+  username: '',
+  email: '',
+  image: '',
+  token: localStorage.getItem('token'),
+}
+
 const credentialsSlice = createSlice({
   name: 'credentials',
-  initialState: {
-    username: '',
-    email: '',
-    image: '',
-    token: localStorage.getItem('token'),
-  },
+  initialState,
   reducers: {
     setupCredentials: (state, { payload: { username, email, image, token } }) => {
       state.username = username || ''
@@ -15,10 +17,15 @@ const credentialsSlice = createSlice({
       state.image = image || ''
       state.token = token || ''
     },
+    resetCredentials: (state) => {
+      Object.keys(initialState).forEach((key) => {
+        state[key] = ''
+      })
+    },
   },
 })
 
-export const { setupCredentials } = credentialsSlice.actions
+export const { setupCredentials, resetCredentials } = credentialsSlice.actions
 
 export const selectCredentials = (state) => state.credentials
 

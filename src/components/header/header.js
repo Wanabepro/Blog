@@ -1,13 +1,19 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom/cjs/react-router-dom'
 
-import { selectCredentials } from '../../store/credentialsSlice'
+import { resetCredentials, selectCredentials } from '../../store/credentialsSlice'
 
 import styles from './header.module.scss'
 
 function Header() {
+  const dispatch = useDispatch()
   const { token, username, image } = useSelector(selectCredentials)
+
+  const onLogout = () => {
+    dispatch(resetCredentials())
+    localStorage.clear()
+  }
 
   return (
     <header className={styles.header}>
@@ -28,12 +34,12 @@ function Header() {
       )}
       {token && (
         <div className={styles.header__authorized}>
-          <button
+          <Link
             className={`${styles.header__button} ${styles['header__button--article']}`}
-            type="button"
+            to="/new-article"
           >
             Create article
-          </button>
+          </Link>
           <div className={styles['header__user-info']}>
             <span className={styles['header__user-name']}>{username}</span>
             <img src={image || '/assets/user.svg'} alt="" />
@@ -41,6 +47,7 @@ function Header() {
           <button
             className={`${styles.header__button} ${styles['header__button--secondary']}`}
             type="button"
+            onClick={onLogout}
           >
             Log Out
           </button>

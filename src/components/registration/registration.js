@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import { useRegisterMutation } from '../../store/usersApi'
+import { setupCredentials } from '../../store/credentialsSlice'
 import Form from '../form'
 import Input from '../input'
 import Button from '../button'
 import Error from '../error'
-import { setupCredentials } from '../../store/credentialsSlice'
 
 import styles from './registration.module.scss'
 

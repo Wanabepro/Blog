@@ -5,10 +5,15 @@ const articlesApi = api.injectEndpoints({
     getArticles: builder.query({
       query: (offset) => `/articles?offset=${offset}`,
     }),
+    createArticle: builder.mutation({
+      query: (body) => ({
+        url: '/articles',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
   overrideExisting: false,
 })
 
-const { useGetArticlesQuery } = articlesApi
-
-export default useGetArticlesQuery
+export const { useGetArticlesQuery, useCreateArticleMutation } = articlesApi

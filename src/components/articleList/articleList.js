@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Pagination, Space } from 'antd'
 
-import useGetArticlesQuery from '../../store/articlesApi'
+import { useGetArticlesQuery } from '../../store/articlesApi'
 import ArticlePreview from '../articlePreview'
 
 import styles from './aticleList.module.scss'
