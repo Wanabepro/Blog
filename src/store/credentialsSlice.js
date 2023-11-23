@@ -29,4 +29,6 @@ export const { setupCredentials, resetCredentials } = credentialsSlice.actions
 
 export const selectCredentials = (state) => state.credentials
 
+export const selectUsername = (state) => state.credentials.username
+
 export default credentialsSlice.reducer

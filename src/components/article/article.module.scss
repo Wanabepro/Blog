@@ -62,3 +62,19 @@
     }
   }
 }
+
+.error {
+  width: fit-content;
+  margin: 2rem auto 0 auto;
+  text-align: center;
+  color: #999;
+
+  &__status {
+    font-size: 6rem;
+    margin-bottom: 1rem;
+  }
+
+  &__message {
+    font-size: 1.4rem;
+  }
+}
