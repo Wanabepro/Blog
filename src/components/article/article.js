@@ -1,67 +1,119 @@
-/* eslint-disable max-len */
-import React from 'react'
-import { useParams } from 'react-router-dom'
+/* eslint-disable operator-linebreak */
+import React, { useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { Popconfirm } from 'antd'
 import Markdown from 'markdown-to-jsx'
 
-import { useGetArticleQuery } from '../../store/articlesApi'
+import { useDeleteArticleMutation, useGetArticleQuery } from '../../store/articlesApi'
 import { selectUsername } from '../../store/credentialsSlice'
 import ArticleHeader from '../articleHeader'
+import Error from '../error'
 
 import styles from './article.module.scss'
 
 function Article() {
   const { slug } = useParams()
 
-  const { isSuccess, data, isError, error } = useGetArticleQuery(slug)
+  const history = useHistory()
+
+  const {
+    isSuccess: isQuerySuccess,
+    data: queryData,
+    isError: queryIsError,
+    error: queryError,
+  } = useGetArticleQuery(slug)
+
+  const [
+    deleteArticle,
+    {
+      isSuccess: deletionIsSuccess,
+      isError: deletionIsError,
+      error: deletionError,
+      reset: deletionReset,
+    },
+  ] = useDeleteArticleMutation()
+
   const username = useSelector(selectUsername)
 
-  if (isSuccess) {
-    const { description, body, ...rest } = data.article
+  useEffect(() => {
+    if (deletionIsSuccess) {
+      history.push('/articles')
+    }
+  }, [deletionIsSuccess])
+
+  if (isQuerySuccess) {
+    const { description, body, ...rest } = queryData.article
 
     const isAuthor = username && username === rest.author.username
 
+    let errorMessage
+
+    if (deletionIsError) {
+      if (deletionError.status === 'FETCH_ERROR') {
+        errorMessage = deletionError.error
+      } else {
+        errorMessage = deletionError.data
+      }
+    }
+
     return (
-      <article className={styles.article}>
-        <ArticleHeader {...rest} />
-        <div className={styles['article__description-block']}>
-          <p className={styles.article__description}>{description}</p>
-          {isAuthor && (
-            <div className={styles.article__controls}>
-              <button
-                type="button"
-                className={`${styles.article__button} ${styles['article__button--delete']}`}
-              >
-                Delete
-              </button>
-              <button
-                type="button"
-                className={`${styles.article__button} ${styles['article__button--edit']}`}
-              >
-                Edit
-              </button>
-            </div>
-          )}
-        </div>
-        <div className={styles.article__text}>
-          <Markdown>{body}</Markdown>
-        </div>
-      </article>
+      <>
+        <article className={styles.article}>
+          <ArticleHeader {...rest} />
+          <div className={styles['article__description-block']}>
+            <p className={styles.article__description}>{description}</p>
+            {isAuthor && (
+              <div className={styles.article__controls}>
+                <Popconfirm
+                  description="Are you sure to delete this article?"
+                  onConfirm={() => deleteArticle(slug)}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <button
+                    type="button"
+                    className={`${styles.article__button} ${styles['article__button--delete']}`}
+                  >
+                    Delete
+                  </button>
+                </Popconfirm>
+                <button
+                  type="button"
+                  className={`${styles.article__button} ${styles['article__button--edit']}`}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
+          </div>
+          <div className={styles.article__text}>
+            <Markdown>{body}</Markdown>
+          </div>
+        </article>
+        {deletionIsError && (
+          <Error
+            status={deletionError.originalStatus || deletionError.status}
+            message={errorMessage}
+            reset={deletionReset}
+          />
+        )}
+      </>
     )
   }
 
-  if (isError) {
+  if (queryIsError) {
     let errorMessage
 
-    if (error.status === 'FETCH_ERROR') {
-      errorMessage = error.error
+    if (queryError.status === 'FETCH_ERROR') {
+      errorMessage = queryError.error
     } else {
-      errorMessage = error.data
+      errorMessage = queryError.data
     }
 
     return (
       <article className={styles.error}>
-        <h1 className={styles.error__status}>{error.originalStatus || error.status}</h1>
+        <h1 className={styles.error__status}>{queryError.originalStatus || queryError.status}</h1>
         <p className={styles.error__message}>{errorMessage}</p>
       </article>
     )

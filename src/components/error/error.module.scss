@@ -3,16 +3,19 @@
   top: 2rem;
   left: 50%;
   transform: translateX(-50%);
+  min-width: 30rem;
   padding: 1.5rem 2rem;
   color: #fff;
   background-color: #e8666d;
   border: 1px solid #f5222d;
   border-radius: 0.6rem;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
 
   &__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 2rem;
     margin-bottom: 2rem;
   }
 

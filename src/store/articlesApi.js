@@ -16,8 +16,19 @@ const articlesApi = api.injectEndpoints({
         body,
       }),
     }),
+    deleteArticle: builder.mutation({
+      query: (slug) => ({
+        url: `/articles/${slug}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
   overrideExisting: false,
 })
 
-export const { useGetArticlesQuery, useGetArticleQuery, useCreateArticleMutation } = articlesApi
+export const {
+  useGetArticlesQuery,
+  useGetArticleQuery,
+  useCreateArticleMutation,
+  useDeleteArticleMutation,
+} = articlesApi
