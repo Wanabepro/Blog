@@ -9,7 +9,7 @@ import Registration from '../registration'
 import Login from '../login'
 import Settings from '../settings'
 import ArticleList from '../articleList'
-// import Article from '../article'
+import Article from '../article'
 import NewArticle from '../newArticle'
 
 function App() {
@@ -28,6 +28,12 @@ function App() {
       <Switch>
         <Route exact path="/">
           <ArticleList />
+        </Route>
+        <Route exact path="/articles">
+          <ArticleList />
+        </Route>
+        <Route path="/articles/:slug">
+          <Article />
         </Route>
         <Route path="/sign-in">
           <Login />

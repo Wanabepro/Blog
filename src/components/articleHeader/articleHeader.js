@@ -1,14 +1,15 @@
 /* eslint-disable operator-linebreak */
 import React from 'react'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import Tag from '../tag'
 
 import styles from './articleHeader.module.scss'
 
-// eslint-disable-next-line max-len
 function ArticleHeader({
   title,
   tagList: tags,
+  slug,
   updatedAt,
   favorited,
   favoritesCount,
@@ -19,7 +20,7 @@ function ArticleHeader({
       <div className={styles.header__left}>
         <div className={styles['header__heading-block']}>
           <h2 className={styles.header__heading}>
-            <a href="https://google.com">{title}</a>
+            <Link to={`/articles/${slug}`}>{title}</Link>
           </h2>
           <div className={styles.header__likes}>
             <img src={`/assets/heart${favorited ? '-red' : ''}.svg`} alt="like button" />

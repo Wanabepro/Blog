@@ -17,7 +17,9 @@ function Header() {
 
   return (
     <header className={styles.header}>
-      <h1 className={styles.header__heading}>Realworld Blog</h1>
+      <h1 className={styles.header__heading}>
+        <Link to="/articles">Realworld Blog</Link>
+      </h1>
       {!token && (
         <div className={styles.header__authorization}>
           <Link className={styles.header__button} to="/sign-in">
