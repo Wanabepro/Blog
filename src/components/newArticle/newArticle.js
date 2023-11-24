@@ -1,26 +1,69 @@
 /* eslint-disable operator-linebreak */
 import React, { useState, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
-import { useCreateArticleMutation } from '../../store/articlesApi'
 import Input from '../input'
 import NewTag from '../newTag'
 import Button from '../button'
 import Error from '../error'
+import {
+  useCreateArticleMutation,
+  useGetArticleQuery,
+  useUpdateArticleMutation,
+} from '../../store/articlesApi'
 
 import styles from './newArticle.module.scss'
 
 function NewArticle() {
-  const [currentTagId, setCurrentTagId] = useState(0)
-  const [tags, setTags] = useState([])
+  const history = useHistory()
+
+  const { slug } = useParams()
+
+  const { data } = useGetArticleQuery(slug)
+
+  const defaultValues = {
+    title: '',
+    description: '',
+    body: '',
+  }
+
+  if (slug) {
+    defaultValues.title = data?.article.title
+    defaultValues.description = data?.article.description
+    defaultValues.body = data?.article.body
+  }
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: 'all' })
+    setValue,
+  } = useForm()
 
-  const [createArticle, { isError, error, reset }] = useCreateArticleMutation()
+  const [tags, setTags] = useState([])
+  const [currentTagId, setCurrentTagId] = useState(0)
+
+  useEffect(() => {
+    if (data) {
+      const { title, description, body, tagList } = data.article
+      setValue('title', title)
+      setValue('description', description)
+      setValue('body', body)
+      setTags(tagList.map((tag, index) => ({ id: index, text: tag })))
+      setCurrentTagId(tagList.length)
+    }
+  }, [data])
+
+  const [createArticle, { isSuccess, isError, error, reset }] = slug
+    ? useUpdateArticleMutation()
+    : useCreateArticleMutation()
+
+  useEffect(() => {
+    if (isSuccess) {
+      history.push('/articles')
+    }
+  }, [isSuccess])
 
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -38,8 +81,14 @@ function NewArticle() {
       ...data,
       tagList: validTags,
     }
-
-    createArticle({ article })
+    if (slug) {
+      createArticle({
+        slug,
+        body: { article },
+      })
+    } else {
+      createArticle({ article })
+    }
   }
 
   const onAdd = () => {
@@ -50,7 +99,9 @@ function NewArticle() {
   return (
     <>
       <form className={styles['new-article']} onSubmit={handleSubmit(onSubmit)}>
-        <h2 className={styles['new-article__heading']}>Create new article</h2>
+        <h2 className={styles['new-article__heading']}>
+          {`${slug ? 'Edit' : 'Create new'} article`}
+        </h2>
         <Input
           label="Title"
           type="text"
@@ -88,7 +139,7 @@ function NewArticle() {
         <ul className={styles['new-article__tags']}>
           {tags.map((tag) => (
             <li key={tag.id}>
-              <NewTag id={tag.id} setTags={setTags} />
+              <NewTag id={tag.id} initialValue={tag.text} setTags={setTags} />
             </li>
           ))}
         </ul>

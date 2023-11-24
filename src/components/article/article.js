@@ -57,6 +57,10 @@ function Article() {
       }
     }
 
+    const onEdit = () => {
+      history.push(`/articles/${slug}/edit`)
+    }
+
     return (
       <>
         <article className={styles.article}>
@@ -67,6 +71,7 @@ function Article() {
               <div className={styles.article__controls}>
                 <Popconfirm
                   description="Are you sure to delete this article?"
+                  placement="right"
                   onConfirm={() => deleteArticle(slug)}
                   okText="Yes"
                   cancelText="No"
@@ -81,6 +86,7 @@ function Article() {
                 <button
                   type="button"
                   className={`${styles.article__button} ${styles['article__button--edit']}`}
+                  onClick={onEdit}
                 >
                   Edit
                 </button>

@@ -1,13 +1,21 @@
 /* eslint-disable no-unused-vars */
 import api from './api'
 
-const articlesApi = api.injectEndpoints({
+const articlesApi = api.enhanceEndpoints({ addTagTypes: ['Article'] }).injectEndpoints({
   endpoints: (builder) => ({
     getArticles: builder.query({
       query: (offset) => `/articles?offset=${offset}`,
+      providesTags: (result) => {
+        if (result) {
+          return [...result.articles.map(({ slug: id }) => ({ type: 'Article', id }))]
+        }
+
+        return ['Article']
+      },
     }),
     getArticle: builder.query({
       query: (slug) => `/articles/${slug}`,
+      providesTags: (result, error, id) => [{ type: 'Article', id }],
     }),
     createArticle: builder.mutation({
       query: (body) => ({
@@ -15,12 +23,25 @@ const articlesApi = api.injectEndpoints({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Article'],
     }),
     deleteArticle: builder.mutation({
       query: (slug) => ({
         url: `/articles/${slug}`,
         method: 'DELETE',
       }),
+      invalidatesTags: (result, error, id) => [{ type: 'Article', id }],
+    }),
+    updateArticle: builder.mutation({
+      query: ({ slug, body }) => ({
+        url: `/articles/${slug}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: (result, error, { slug: id }) => {
+        console.log(id)
+        return [{ type: 'Article', id }]
+      },
     }),
   }),
   overrideExisting: false,
@@ -31,4 +52,5 @@ export const {
   useGetArticleQuery,
   useCreateArticleMutation,
   useDeleteArticleMutation,
+  useUpdateArticleMutation,
 } = articlesApi

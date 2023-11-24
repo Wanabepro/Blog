@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 import styles from './newTag.module.scss'
 
-function NewTag({ id, setTags }) {
-  const [inputValue, setInputValue] = useState('')
+function NewTag({ id, initialValue, setTags }) {
+  const [inputValue, setInputValue] = useState(initialValue || '')
 
   const onChange = (e) => {
     setInputValue(e.target.value)

@@ -32,8 +32,11 @@ function App() {
         <Route exact path="/articles">
           <ArticleList />
         </Route>
-        <Route path="/articles/:slug">
+        <Route exact path="/articles/:slug">
           <Article />
+        </Route>
+        <Route path="/articles/:slug/edit">
+          <NewArticle />
         </Route>
         <Route path="/sign-in">
           <Login />
