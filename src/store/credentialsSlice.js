@@ -31,4 +31,6 @@ export const selectCredentials = (state) => state.credentials
 
 export const selectUsername = (state) => state.credentials.username
 
+export const selectToken = (state) => state.credentials.token
+
 export default credentialsSlice.reducer

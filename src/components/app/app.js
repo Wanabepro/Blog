@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { useGetUserQuery } from '../../store/usersApi'
 import { setupCredentials } from '../../store/credentialsSlice'
+import PrivateRoute from '../privateRoute'
 import Header from '../header'
 import Registration from '../registration'
 import Login from '../login'
@@ -29,27 +30,27 @@ function App() {
         <Route exact path="/">
           <ArticleList />
         </Route>
-        <Route exact path="/articles">
-          <ArticleList />
-        </Route>
-        <Route exact path="/articles/:slug">
-          <Article />
-        </Route>
-        <Route path="/articles/:slug/edit">
-          <NewArticle />
-        </Route>
         <Route path="/sign-in">
           <Login />
         </Route>
         <Route path="/sign-up">
           <Registration />
         </Route>
-        <Route path="/profile">
-          <Settings />
+        <Route exact path="/articles">
+          <ArticleList />
         </Route>
-        <Route path="/new-article">
+        <Route exact path="/articles/:slug">
+          <Article />
+        </Route>
+        <PrivateRoute path="/articles/:slug/edit">
           <NewArticle />
-        </Route>
+        </PrivateRoute>
+        <PrivateRoute path="/profile">
+          <Settings />
+        </PrivateRoute>
+        <PrivateRoute path="/new-article">
+          <NewArticle />
+        </PrivateRoute>
       </Switch>
     </Router>
   )

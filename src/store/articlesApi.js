@@ -38,10 +38,7 @@ const articlesApi = api.enhanceEndpoints({ addTagTypes: ['Article'] }).injectEnd
         method: 'PUT',
         body,
       }),
-      invalidatesTags: (result, error, { slug: id }) => {
-        console.log(id)
-        return [{ type: 'Article', id }]
-      },
+      invalidatesTags: (result, error, { slug: id }) => [{ type: 'Article', id }],
     }),
   }),
   overrideExisting: false,
