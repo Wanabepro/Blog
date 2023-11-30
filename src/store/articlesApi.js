@@ -40,6 +40,20 @@ const articlesApi = api.enhanceEndpoints({ addTagTypes: ['Article'] }).injectEnd
       }),
       invalidatesTags: (result, error, { slug: id }) => [{ type: 'Article', id }],
     }),
+    likeArticle: builder.mutation({
+      query: (slug) => ({
+        url: `/articles/${slug}/favorite`,
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Article', id }],
+    }),
+    unlikeArticle: builder.mutation({
+      query: (slug) => ({
+        url: `/articles/${slug}/favorite`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Article', id }],
+    }),
   }),
   overrideExisting: false,
 })
@@ -50,4 +64,6 @@ export const {
   useCreateArticleMutation,
   useDeleteArticleMutation,
   useUpdateArticleMutation,
+  useLikeArticleMutation,
+  useUnlikeArticleMutation,
 } = articlesApi

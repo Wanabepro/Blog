@@ -68,10 +68,12 @@ function NewArticle() {
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    if (error?.status === 'FETCH_ERROR') {
-      setErrorMessage(error?.error)
-    } else {
-      setErrorMessage(error?.data.errors.message)
+    if (isError) {
+      if (error.status === 'FETCH_ERROR') {
+        setErrorMessage(error.error)
+      } else {
+        setErrorMessage(error.data.errors.message)
+      }
     }
   }, [isError, error])
 

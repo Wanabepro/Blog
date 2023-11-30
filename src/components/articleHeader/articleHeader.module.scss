@@ -25,6 +25,27 @@
     align-items: center;
   }
 
+  &__like-button {
+    font-size: 0;
+    width: 16px;
+    height: 16px;
+    border: none;
+    background: none;
+
+    &--like {
+      background: url('./heart.svg') no-repeat;
+    }
+
+    &--unlike {
+      background: url('./heart-red.svg') no-repeat;
+    }
+
+    &:hover {
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
   &__tags {
     display: flex;
     gap: 0.8rem;
