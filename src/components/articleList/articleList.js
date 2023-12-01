@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Pagination, Space } from 'antd'
 
 import { useGetArticlesQuery } from '../../store/articlesApi'
@@ -11,6 +11,10 @@ import styles from './aticleList.module.scss'
 function ArticleList() {
   const [page, setPage] = useState(1)
   const { isFetching, data } = useGetArticlesQuery((page - 1) * 20)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
 
   if (isFetching) {
     return <Spinner />
