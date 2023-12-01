@@ -26,6 +26,7 @@
   },
   "plugins": ["react", "import", "prettier"],
   "rules": {
+    "operator-linebreak": ["error", "before", {"overrides" : { "=": "after" }}],
     "no-param-reassign": ["error", { "props": false }],
     "no-shadow": "off",
     "object-curly-newline": "off",

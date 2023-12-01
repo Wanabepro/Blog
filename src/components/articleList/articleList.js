@@ -3,13 +3,18 @@ import React, { useState } from 'react'
 import { Pagination, Space } from 'antd'
 
 import { useGetArticlesQuery } from '../../store/articlesApi'
+import Spinner from '../spinner'
 import ArticlePreview from '../articlePreview'
 
 import styles from './aticleList.module.scss'
 
 function ArticleList() {
   const [page, setPage] = useState(1)
-  const { data } = useGetArticlesQuery((page - 1) * 20)
+  const { isFetching, data } = useGetArticlesQuery((page - 1) * 20)
+
+  if (isFetching) {
+    return <Spinner />
+  }
 
   if (data) {
     const { articles, articlesCount: total } = data

@@ -17,11 +17,16 @@ function ArticleHeader({
   favoritesCount,
   author: { username, image },
 }) {
-  const [like, { isError: likeIsError, error: likeError, reset: likeReset }] =
-    useLikeArticleMutation()
-  const [unlike, { isError: unlikeIsError, error: unlikeError, reset: unlikeReset }] =
-    useUnlikeArticleMutation()
+  const [
+    like,
+    { isLoading: likeIsLoading, isError: likeIsError, error: likeError, reset: likeReset },
+  ] = useLikeArticleMutation()
+  const [
+    unlike,
+    { isLoading: unlikeIsLoading, isError: unlikeIsError, error: unlikeError, reset: unlikeReset },
+  ] = useUnlikeArticleMutation()
 
+  const isLoading = likeIsLoading || unlikeIsLoading
   const isError = likeIsError || unlikeIsError
 
   const history = useHistory()
@@ -70,6 +75,7 @@ function ArticleHeader({
               {favorited && (
                 <button
                   type="button"
+                  disabled={isLoading}
                   className={`${styles['header__like-button']} ${styles['header__like-button--unlike']}`}
                   onClick={() => unlike(slug)}
                 >
@@ -79,6 +85,7 @@ function ArticleHeader({
               {!favorited && (
                 <button
                   type="button"
+                  disabled={isLoading}
                   className={`${styles['header__like-button']} ${styles['header__like-button--like']}`}
                   onClick={() => like(slug)}
                 >

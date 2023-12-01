@@ -23,7 +23,7 @@ function Login() {
     formState: { errors },
   } = useForm({ mode: 'all' })
 
-  const [login, { isSuccess, data, isError, error, reset }] = useLoginMutation()
+  const [login, { isLoading, isSuccess, data, isError, error, reset }] = useLoginMutation()
 
   const onSubmit = (userData) => {
     const user = {
@@ -83,7 +83,7 @@ function Login() {
           registerOptions={{ required: 'Password is required' }}
           errorMessage={errors.password?.message}
         />
-        <Button text="Login" />
+        <Button isLoading={isLoading} text="Login" />
         <p className={styles.login__redirect}>
           {
             // eslint-disable-next-line quotes

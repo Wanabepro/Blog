@@ -1,8 +1,8 @@
-/* eslint-disable operator-linebreak */
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
+import Spinner from '../spinner'
 import Input from '../input'
 import NewTag from '../newTag'
 import Button from '../button'
@@ -20,19 +20,7 @@ function NewArticle() {
 
   const { slug } = useParams()
 
-  const { data } = useGetArticleQuery(slug)
-
-  const defaultValues = {
-    title: '',
-    description: '',
-    body: '',
-  }
-
-  if (slug) {
-    defaultValues.title = data?.article.title
-    defaultValues.description = data?.article.description
-    defaultValues.body = data?.article.body
-  }
+  const { data, isFetching: isQueryLoading } = useGetArticleQuery(slug, { skip: !slug })
 
   const {
     register,
@@ -55,7 +43,7 @@ function NewArticle() {
     }
   }, [data])
 
-  const [createArticle, { isSuccess, isError, error, reset }] = slug
+  const [createArticle, { isLoading: isMutationLoading, isSuccess, isError, error, reset }] = slug
     ? useUpdateArticleMutation()
     : useCreateArticleMutation()
 
@@ -98,67 +86,74 @@ function NewArticle() {
     setCurrentTagId((prev) => prev + 1)
   }
 
-  return (
-    <>
-      <form className={styles['new-article']} onSubmit={handleSubmit(onSubmit)}>
-        <h2 className={styles['new-article__heading']}>
-          {`${slug ? 'Edit' : 'Create new'} article`}
-        </h2>
-        <Input
-          label="Title"
-          type="text"
-          placeholder="Title"
-          additionalClass={styles['new-article__input']}
-          name="title"
-          register={register}
-          registerOptions={{ required: 'Article title is required' }}
-          errorMessage={errors.title?.message}
-        />
-        <Input
-          label="Short description"
-          type="text"
-          placeholder="Description"
-          additionalClass={styles['new-article__input']}
-          name="description"
-          register={register}
-          registerOptions={{ required: 'Short description is required' }}
-          errorMessage={errors.description?.message}
-        />
-        <label className={styles['new-article__text-block']}>
-          <span className={styles['new-article__text-label']}>Text</span>
-          <textarea
-            className={`${styles['new-article__text']}${
-              errors.body?.message ? ` ${styles['new-article__text--error']}` : ''
-            }`}
-            placeholder="Text"
-            {...register('body', { required: 'Article body is required' })}
+  if (isQueryLoading) {
+    return <Spinner />
+  }
+
+  if (!isQueryLoading) {
+    return (
+      <>
+        <form className={styles['new-article']} onSubmit={handleSubmit(onSubmit)}>
+          <h2 className={styles['new-article__heading']}>
+            {`${slug ? 'Edit' : 'Create new'} article`}
+          </h2>
+          <Input
+            label="Title"
+            type="text"
+            placeholder="Title"
+            additionalClass={styles['new-article__input']}
+            name="title"
+            register={register}
+            registerOptions={{ required: 'Article title is required' }}
+            errorMessage={errors.title?.message}
           />
-          {errors.body?.message && (
-            <span className={styles['new-article__text-error']}>{errors.body?.message}</span>
-          )}
-        </label>
-        <span className={styles['new-article__tags-header']}>Tags</span>
-        <ul className={styles['new-article__tags']}>
-          {tags.map((tag) => (
-            <li key={tag.id}>
-              <NewTag id={tag.id} initialValue={tag.text} setTags={setTags} />
-            </li>
-          ))}
-        </ul>
-        <button
-          className={`${styles['new-article__add-tag']}${
-            tags.length ? '' : ` ${styles['new-article__add-tag--no-tags']}`
-          }`}
-          type="button"
-          onClick={onAdd}
-        >
-          Add tag
-        </button>
-        <Button text="Send" />
-      </form>
-      {isError && <Error status={error?.status} message={errorMessage} reset={reset} />}
-    </>
-  )
+          <Input
+            label="Short description"
+            type="text"
+            placeholder="Description"
+            additionalClass={styles['new-article__input']}
+            name="description"
+            register={register}
+            registerOptions={{ required: 'Short description is required' }}
+            errorMessage={errors.description?.message}
+          />
+          <label className={styles['new-article__text-block']}>
+            <span className={styles['new-article__text-label']}>Text</span>
+            <textarea
+              className={`${styles['new-article__text']}${
+                errors.body?.message ? ` ${styles['new-article__text--error']}` : ''
+              }`}
+              placeholder="Text"
+              {...register('body', { required: 'Article body is required' })}
+            />
+            {errors.body?.message && (
+              <span className={styles['new-article__text-error']}>{errors.body?.message}</span>
+            )}
+          </label>
+          <span className={styles['new-article__tags-header']}>Tags</span>
+          <ul className={styles['new-article__tags']}>
+            {tags.map((tag) => (
+              <li key={tag.id}>
+                <NewTag id={tag.id} initialValue={tag.text} setTags={setTags} />
+              </li>
+            ))}
+          </ul>
+          <button
+            className={`${styles['new-article__add-tag']}${
+              tags.length ? '' : ` ${styles['new-article__add-tag--no-tags']}`
+            }`}
+            type="button"
+            disabled={isMutationLoading}
+            onClick={onAdd}
+          >
+            Add tag
+          </button>
+          <Button isLoading={isMutationLoading} text="Send" />
+        </form>
+        {isError && <Error status={error?.status} message={errorMessage} reset={reset} />}
+      </>
+    )
+  }
 }
 
 export default NewArticle

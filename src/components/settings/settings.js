@@ -34,7 +34,8 @@ function Settings() {
     }
   }, [username, email, image])
 
-  const [updateUser, { isSuccess, data, isError, error, reset }] = useUpdateUserMutation()
+  const [updateUser, { isLoading, isSuccess, data, isError, error, reset }] =
+    useUpdateUserMutation()
 
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -55,7 +56,13 @@ function Settings() {
     }
   }, [isError, error])
 
-  const onSubmit = (user) => {
+  const onSubmit = (data) => {
+    const user = { ...data }
+
+    if (!user.password) {
+      delete user.password
+    }
+
     updateUser({ user })
   }
 
@@ -122,7 +129,7 @@ function Settings() {
           }}
           errorMessage={errors.image?.message}
         />
-        <Button text="Save" />
+        <Button isLoading={isLoading} text="Save" />
       </Form>
       {isError && error.status !== 422 && (
         <Error message={errorMessage} status={error?.status} reset={reset} />

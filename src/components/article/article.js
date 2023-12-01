@@ -1,4 +1,3 @@
-/* eslint-disable operator-linebreak */
 import React, { useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -7,6 +6,7 @@ import Markdown from 'markdown-to-jsx'
 
 import { useDeleteArticleMutation, useGetArticleQuery } from '../../store/articlesApi'
 import { selectUsername } from '../../store/credentialsSlice'
+import Spinner from '../spinner'
 import ArticleHeader from '../articleHeader'
 import Error from '../error'
 
@@ -18,6 +18,7 @@ function Article() {
   const history = useHistory()
 
   const {
+    isFetching: isQueryLoading,
     isSuccess: isQuerySuccess,
     data: queryData,
     isError: queryIsError,
@@ -41,6 +42,10 @@ function Article() {
       history.push('/articles')
     }
   }, [deletionIsSuccess])
+
+  if (isQueryLoading) {
+    return <Spinner />
+  }
 
   if (isQuerySuccess) {
     const { description, body, ...rest } = queryData.article

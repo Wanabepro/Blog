@@ -14,13 +14,15 @@ const likesOnQueryStarted = async (slug, { dispatch, queryFulfilled, getState })
 
     dispatch(
       api.util.updateQueryData('getArticles', arg, (draft) => {
-        draft.articles.find((article) => article.slug === slug).favorited = article.favorited
+        const target = draft.articles.find((article) => article.slug === slug)
+        Object.assign(target, article)
       }),
     )
 
     dispatch(
       api.util.updateQueryData('getArticle', slug, (draft) => {
-        draft.article.favorited = article.favorited
+        const target = draft.article
+        Object.assign(target, article)
       }),
     )
   } catch (error) {

@@ -2,10 +2,10 @@ import React from 'react'
 
 import styles from './button.module.scss'
 
-function Button({ text }) {
+function Button({ isLoading, text }) {
   return (
-    <button type="submit" className={styles.button}>
-      {text}
+    <button type="submit" className={styles.button} disabled={isLoading}>
+      {!isLoading && text}
     </button>
   )
 }

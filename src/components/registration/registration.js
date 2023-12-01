@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
@@ -27,7 +28,8 @@ function Registration() {
 
   const password = watch('password')
 
-  const [registerUser, { isSuccess, data, isError, error, reset }] = useRegisterMutation()
+  const [registerUser, { isLoading, isSuccess, data, isError, error, reset }] =
+    useRegisterMutation()
 
   const onSubmit = (userData) => {
     const user = {
@@ -137,7 +139,7 @@ function Registration() {
           </div>
           {errors.agreed && <p className={styles.registration__error}>{errors.agreed.message}</p>}
         </label>
-        <Button text="Create" />
+        <Button isLoading={isLoading} text="Create" />
         <p className={styles.registration__redirect}>
           {'Already have an account? '}
           <Link to="/sign-in" className={styles.registration__link}>
