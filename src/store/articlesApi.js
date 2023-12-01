@@ -1,26 +1,31 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import api from './api'
 
 const likesOnQueryStarted = async (slug, { dispatch, queryFulfilled, getState }) => {
-  const {
-    data: { article },
-  } = await queryFulfilled
+  try {
+    const {
+      data: { article },
+    } = await queryFulfilled
 
-  const arg = api.util
-    .selectInvalidatedBy(getState(), [{ type: 'Article', id: slug }])
-    .find((item) => item.endpointName === 'getArticles')?.originalArgs
+    const arg = api.util
+      .selectInvalidatedBy(getState(), [{ type: 'Article', id: slug }])
+      .find((item) => item.endpointName === 'getArticles')?.originalArgs
 
-  dispatch(
-    api.util.updateQueryData('getArticles', arg, (draft) => {
-      draft.articles.find((article) => article.slug === slug).favorited = article.favorited
-    }),
-  )
+    dispatch(
+      api.util.updateQueryData('getArticles', arg, (draft) => {
+        draft.articles.find((article) => article.slug === slug).favorited = article.favorited
+      }),
+    )
 
-  dispatch(
-    api.util.updateQueryData('getArticle', slug, (draft) => {
-      draft.article.favorited = article.favorited
-    }),
-  )
+    dispatch(
+      api.util.updateQueryData('getArticle', slug, (draft) => {
+        draft.article.favorited = article.favorited
+      }),
+    )
+  } catch (error) {
+    return error
+  }
 }
 
 const articlesApi = api.enhanceEndpoints({ addTagTypes: ['Article'] }).injectEndpoints({
