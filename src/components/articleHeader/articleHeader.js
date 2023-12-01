@@ -91,6 +91,7 @@ function ArticleHeader({
           <ul className={styles.header__tags}>
             {!!tags.length &&
               Array.from(new Set(tags))
+                .map((tag) => tag.trim())
                 .filter(Boolean)
                 .map((tag) => (
                   <li key={tag}>

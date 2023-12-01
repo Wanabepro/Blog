@@ -20,6 +20,8 @@
     font-size: 1.2rem;
     line-height: 2.2rem;
     color: #777;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__controls {
@@ -49,6 +51,8 @@
     color: rgba($color: #000000, $alpha: 0.75);
     font-size: 1.4rem;
     line-height: 2.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     * {
       box-sizing: revert;

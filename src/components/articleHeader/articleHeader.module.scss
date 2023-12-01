@@ -1,9 +1,17 @@
 .header {
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  gap: 1.5rem;
   margin-bottom: 2.2rem;
 
+  &__left {
+    max-width: 80%;
+    flex-shrink: 1;
+  }
+
   &__heading-block {
+    width: 100%;
     display: flex;
     gap: 1.2rem;
     margin-bottom: 0.4rem;
@@ -12,6 +20,9 @@
   &__heading {
     font-weight: 400;
     font-size: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     & a {
       text-decoration: none;
@@ -48,21 +59,26 @@
 
   &__tags {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.8rem;
   }
 
   &__right {
+    min-width: 19%;
+    max-width: 50%;
     display: flex;
     gap: 1.2rem;
+    align-self: flex-start;
     align-items: center;
   }
 
   &__user-info {
-    width: fit-content;
+    max-width: 65%;
 
     & p {
-      width: fit-content;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       &:first-child {
         font-size: 1.8rem;
