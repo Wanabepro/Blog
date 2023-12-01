@@ -1,6 +1,22 @@
 /* eslint-disable no-unused-vars */
 import api from './api'
 
+const likesOnQueryStarted = async (slug, { dispatch, queryFulfilled, getState }) => {
+  const {
+    data: { article },
+  } = await queryFulfilled
+
+  const arg = api.util
+    .selectInvalidatedBy(getState(), [{ type: 'Article', id: slug }])
+    .find((item) => item.endpointName === 'getArticles').originalArgs
+
+  dispatch(
+    api.util.updateQueryData('getArticles', arg, (draft) => {
+      draft.articles.find((article) => article.slug === slug).favorited = article.favorited
+    }),
+  )
+}
+
 const articlesApi = api.enhanceEndpoints({ addTagTypes: ['Article'] }).injectEndpoints({
   endpoints: (builder) => ({
     getArticles: builder.query({
@@ -45,14 +61,14 @@ const articlesApi = api.enhanceEndpoints({ addTagTypes: ['Article'] }).injectEnd
         url: `/articles/${slug}/favorite`,
         method: 'POST',
       }),
-      invalidatesTags: (result, error, id) => [{ type: 'Article', id }],
+      onQueryStarted: likesOnQueryStarted,
     }),
     unlikeArticle: builder.mutation({
       query: (slug) => ({
         url: `/articles/${slug}/favorite`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, id) => [{ type: 'Article', id }],
+      onQueryStarted: likesOnQueryStarted,
     }),
   }),
   overrideExisting: false,
