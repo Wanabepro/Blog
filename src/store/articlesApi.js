@@ -8,11 +8,17 @@ const likesOnQueryStarted = async (slug, { dispatch, queryFulfilled, getState })
 
   const arg = api.util
     .selectInvalidatedBy(getState(), [{ type: 'Article', id: slug }])
-    .find((item) => item.endpointName === 'getArticles').originalArgs
+    .find((item) => item.endpointName === 'getArticles')?.originalArgs
 
   dispatch(
     api.util.updateQueryData('getArticles', arg, (draft) => {
       draft.articles.find((article) => article.slug === slug).favorited = article.favorited
+    }),
+  )
+
+  dispatch(
+    api.util.updateQueryData('getArticle', slug, (draft) => {
+      draft.article.favorited = article.favorited
     }),
   )
 }
