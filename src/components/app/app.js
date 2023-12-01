@@ -27,14 +27,14 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/">
-          <ArticleList />
-        </Route>
         <Route path="/sign-in">
           <Login />
         </Route>
         <Route path="/sign-up">
           <Registration />
+        </Route>
+        <Route exact path="/">
+          <ArticleList />
         </Route>
         <Route exact path="/articles">
           <ArticleList />

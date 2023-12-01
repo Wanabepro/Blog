@@ -111,7 +111,7 @@ function ArticleHeader({
               })}
             </p>
           </div>
-          <img className={styles.header__img} src={image || '/assets/user.svg'} alt="" />
+          <img className={styles.header__img} src={image} alt="Author avatar" />
         </div>
       </header>
       {isError && (

@@ -44,11 +44,11 @@
     background: none;
 
     &--like {
-      background: url('./heart.svg') no-repeat;
+      background: url('/assets/heart.svg') no-repeat;
     }
 
     &--unlike {
-      background: url('./heart-red.svg') no-repeat;
+      background: url('/assets/heart-red.svg') no-repeat;
     }
 
     &:hover {
@@ -93,10 +93,25 @@
   }
 
   &__img {
+    position: relative;
     display: block;
+    font-size: 0;
     object-fit: cover;
     width: 4.6rem;
     height: 4.6rem;
     border-radius: 50%;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 4.6rem;
+      height: 4.6rem;
+      border-radius: 50%;
+      background: url('/assets/user.svg') no-repeat;
+    }
   }
 }

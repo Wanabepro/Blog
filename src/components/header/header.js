@@ -49,7 +49,7 @@ function Header() {
               {username}
             </Link>
             <Link className={styles['header__user-avatar']} to="/profile">
-              <img src={image || '/assets/user.svg'} alt="" />
+              <img src={image} alt="Your avatar" />
             </Link>
           </div>
           <button
