@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
 import { useUpdateUserMutation } from '../../store/usersApi'
@@ -7,26 +7,32 @@ import Form from '../form'
 import Input from '../input'
 import Button from '../button'
 import Error from '../error'
-import { setupCredentials } from '../../store/credentialsSlice'
+import { selectCredentials, setupCredentials } from '../../store/credentialsSlice'
 
 import styles from './settings.module.scss'
 
 function Settings() {
   const dispatch = useDispatch()
 
+  const { username, email, image } = useSelector(selectCredentials)
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
+    setValue,
   } = useForm({
     mode: 'all',
-    defaultValues: {
-      username: localStorage.getItem('username'),
-      email: localStorage.getItem('email'),
-      image: localStorage.getItem('image') || '',
-    },
   })
+
+  useEffect(() => {
+    if (username) {
+      setValue('username', username)
+      setValue('email', email)
+      setValue('image', image)
+    }
+  }, [username, email, image])
 
   const [updateUser, { isSuccess, data, isError, error, reset }] = useUpdateUserMutation()
 

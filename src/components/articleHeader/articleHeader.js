@@ -64,7 +64,7 @@ function ArticleHeader({
         <div className={styles.header__left}>
           <div className={styles['header__heading-block']}>
             <h2 className={styles.header__heading}>
-              <Link to={`/articles/${slug}`}>{title}</Link>
+              <Link to={`/articles/${slug}`}>{title.trim() || 'Article without heading'}</Link>
             </h2>
             <div className={styles.header__likes}>
               {favorited && (

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom/cjs/react-router-dom'
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom'
 
 import { useLoginMutation } from '../../store/usersApi'
 import { setupCredentials } from '../../store/credentialsSlice'
@@ -14,6 +14,8 @@ import styles from './login.module.scss'
 
 function Login() {
   const dispatch = useDispatch()
+
+  const history = useHistory()
 
   const {
     register,
@@ -47,6 +49,7 @@ function Login() {
     if (isSuccess) {
       localStorage.setItem('token', data.user.token)
       dispatch(setupCredentials(data.user))
+      history.push('/articles')
     }
   }, [isSuccess, data])
 

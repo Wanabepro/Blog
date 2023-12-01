@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import { resetCredentials, selectCredentials } from '../../store/credentialsSlice'
+import api from '../../store/api'
 
 import styles from './header.module.scss'
 
@@ -12,6 +13,7 @@ function Header() {
 
   const onLogout = () => {
     dispatch(resetCredentials())
+    dispatch(api.util.resetApiState())
     localStorage.clear()
   }
 
@@ -43,8 +45,12 @@ function Header() {
             Create article
           </Link>
           <div className={styles['header__user-info']}>
-            <span className={styles['header__user-name']}>{username}</span>
-            <img src={image || '/assets/user.svg'} alt="" />
+            <Link className={styles['header__user-name']} to="/profile">
+              {username}
+            </Link>
+            <Link className={styles['header__user-avatar']} to="/profile">
+              <img src={image || '/assets/user.svg'} alt="" />
+            </Link>
           </div>
           <button
             className={`${styles.header__button} ${styles['header__button--secondary']}`}

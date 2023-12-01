@@ -81,5 +81,20 @@
 
   &__user-name {
     font-size: 1.8rem;
+    color: #262626;
+  }
+
+  &__user-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      display: block;
+      width: 46px;
+      height: 46px;
+      object-fit: cover;
+    }
   }
 }
