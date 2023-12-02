@@ -1,11 +1,10 @@
 /* eslint-disable operator-linebreak */
-import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useForm } from 'react-hook-form'
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import { useRegisterMutation } from '../../store/usersApi'
-import { setupCredentials } from '../../store/credentialsSlice'
+import useServerErrorHandling from '../../hooks/useServerErrorHandling'
+import useCustomForm from '../../hooks/useCustomForm'
 import Form from '../form'
 import Input from '../input'
 import Button from '../button'
@@ -14,22 +13,22 @@ import Error from '../error'
 import styles from './registration.module.scss'
 
 function Registration() {
-  const dispatch = useDispatch()
-
-  const history = useHistory()
-
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    errors,
     setError,
-  } = useForm({ mode: 'all' })
+    mutate: registerUser,
+    isLoading,
+    isError,
+    error,
+    reset,
+  } = useCustomForm(useRegisterMutation, '/articles')
 
   const password = watch('password')
 
-  const [registerUser, { isLoading, isSuccess, data, isError, error, reset }] =
-    useRegisterMutation()
+  const errorMessage = useServerErrorHandling(isError, error, setError)
 
   const onSubmit = (userData) => {
     const user = {
@@ -40,31 +39,6 @@ function Registration() {
 
     registerUser({ user })
   }
-
-  const [errorMessage, setErrorMessage] = useState('')
-
-  useEffect(() => {
-    if (error?.status === 422) {
-      Object.entries(error.data.errors).forEach((entry) => {
-        // eslint-disable-next-line prefer-const
-        let [field, message] = entry
-
-        message = `${field[0].toUpperCase()}${field.slice(1)} ${message.slice(0, -1)}`
-
-        setError(field, { type: 'server', message })
-      })
-    } else {
-      setErrorMessage(error?.error)
-    }
-  }, [isError, error])
-
-  useEffect(() => {
-    if (isSuccess) {
-      localStorage.setItem('token', data.user.token)
-      dispatch(setupCredentials(data.user))
-      history.push('/articles')
-    }
-  }, [isSuccess, data])
 
   return (
     <>

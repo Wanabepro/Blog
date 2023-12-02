@@ -17,6 +17,8 @@ function Article() {
 
   const history = useHistory()
 
+  const username = useSelector(selectUsername)
+
   const {
     isFetching: isQueryLoading,
     isSuccess: isQuerySuccess,
@@ -34,8 +36,6 @@ function Article() {
       reset: deletionReset,
     },
   ] = useDeleteArticleMutation()
-
-  const username = useSelector(selectUsername)
 
   useEffect(() => {
     if (deletionIsSuccess) {

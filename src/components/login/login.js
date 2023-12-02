@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useForm } from 'react-hook-form'
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 import { useLoginMutation } from '../../store/usersApi'
-import { setupCredentials } from '../../store/credentialsSlice'
+import useCustomForm from '../../hooks/useCustomForm'
 import Form from '../form'
 import Input from '../input'
 import Button from '../button'
@@ -13,17 +11,16 @@ import Error from '../error'
 import styles from './login.module.scss'
 
 function Login() {
-  const dispatch = useDispatch()
-
-  const history = useHistory()
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm({ mode: 'all' })
-
-  const [login, { isLoading, isSuccess, data, isError, error, reset }] = useLoginMutation()
+    errors,
+    mutate: login,
+    isLoading,
+    isError,
+    error,
+    reset,
+  } = useCustomForm(useLoginMutation, '/articles')
 
   const onSubmit = (userData) => {
     const user = {
@@ -44,14 +41,6 @@ function Login() {
       errorMessage = error?.error
     }
   }
-
-  useEffect(() => {
-    if (isSuccess) {
-      localStorage.setItem('token', data.user.token)
-      dispatch(setupCredentials(data.user))
-      history.push('/articles')
-    }
-  }, [isSuccess, data])
 
   return (
     <>

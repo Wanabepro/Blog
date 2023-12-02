@@ -1,30 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useForm } from 'react-hook-form'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
+import useCustomForm from '../../hooks/useCustomForm'
 import { useUpdateUserMutation } from '../../store/usersApi'
+import useServerErrorHandling from '../../hooks/useServerErrorHandling'
 import Form from '../form'
 import Input from '../input'
 import Button from '../button'
 import Error from '../error'
-import { selectCredentials, setupCredentials } from '../../store/credentialsSlice'
+import { selectCredentials } from '../../store/credentialsSlice'
 
 import styles from './settings.module.scss'
 
 function Settings() {
-  const dispatch = useDispatch()
-
   const { username, email, image } = useSelector(selectCredentials)
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    errors,
     setError,
     setValue,
-  } = useForm({
-    mode: 'all',
-  })
+    mutate: updateUser,
+    isLoading,
+    isError,
+    error,
+    reset,
+  } = useCustomForm(useUpdateUserMutation)
 
   useEffect(() => {
     if (username) {
@@ -34,27 +36,7 @@ function Settings() {
     }
   }, [username, email, image])
 
-  const [updateUser, { isLoading, isSuccess, data, isError, error, reset }] =
-    useUpdateUserMutation()
-
-  const [errorMessage, setErrorMessage] = useState('')
-
-  useEffect(() => {
-    if (error?.status === 422) {
-      Object.entries(error.data.errors).forEach((entry) => {
-        // eslint-disable-next-line prefer-const
-        let [field, message] = entry
-
-        message = `${field[0].toUpperCase()}${field.slice(1)} ${message.slice(0, -1)}`
-
-        setError(field, { type: 'server', message })
-      })
-    } else if (error?.status === 401) {
-      setErrorMessage(error?.data?.errors?.message)
-    } else {
-      setErrorMessage(error?.error)
-    }
-  }, [isError, error])
+  const errorMessage = useServerErrorHandling(isError, error, setError)
 
   const onSubmit = (data) => {
     const user = { ...data }
@@ -65,13 +47,6 @@ function Settings() {
 
     updateUser({ user })
   }
-
-  useEffect(() => {
-    if (isSuccess) {
-      localStorage.setItem('token', data.user.token)
-      dispatch(setupCredentials(data.user))
-    }
-  }, [isSuccess, data])
 
   return (
     <>

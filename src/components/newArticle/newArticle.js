@@ -1,33 +1,51 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 
+import useCustomForm from '../../hooks/useCustomForm'
+import {
+  useGetArticleQuery,
+  useCreateArticleMutation,
+  useUpdateArticleMutation,
+} from '../../store/articlesApi'
 import Spinner from '../spinner'
 import Input from '../input'
 import NewTag from '../newTag'
 import Button from '../button'
 import Error from '../error'
-import {
-  useCreateArticleMutation,
-  useGetArticleQuery,
-  useUpdateArticleMutation,
-} from '../../store/articlesApi'
 
 import styles from './newArticle.module.scss'
 
 function NewArticle() {
-  const history = useHistory()
-
   const { slug } = useParams()
-
-  const { data, isFetching: isQueryLoading } = useGetArticleQuery(slug, { skip: !slug })
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    errors,
     setValue,
-  } = useForm()
+    mutate: createArticle,
+    isLoading: isMutationLoading,
+    isError,
+    error,
+    reset,
+  } = useCustomForm(slug ? useUpdateArticleMutation : useCreateArticleMutation, '/articles', [
+    'article',
+    'slug',
+  ])
+
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    if (isError) {
+      if (error.status === 'FETCH_ERROR') {
+        setErrorMessage(error.error)
+      } else {
+        setErrorMessage(error.data.errors.message)
+      }
+    }
+  }, [isError, error])
+
+  const { data, isFetching: isQueryLoading } = useGetArticleQuery(slug, { skip: !slug })
 
   const [tags, setTags] = useState([])
   const [currentTagId, setCurrentTagId] = useState(0)
@@ -42,28 +60,6 @@ function NewArticle() {
       setCurrentTagId(tagList.length)
     }
   }, [data])
-
-  const [createArticle, { isLoading: isMutationLoading, isSuccess, isError, error, reset }] = slug
-    ? useUpdateArticleMutation()
-    : useCreateArticleMutation()
-
-  useEffect(() => {
-    if (isSuccess) {
-      history.push('/articles')
-    }
-  }, [isSuccess])
-
-  const [errorMessage, setErrorMessage] = useState('')
-
-  useEffect(() => {
-    if (isError) {
-      if (error.status === 'FETCH_ERROR') {
-        setErrorMessage(error.error)
-      } else {
-        setErrorMessage(error.data.errors.message)
-      }
-    }
-  }, [isError, error])
 
   const onSubmit = (data) => {
     const validTags = Array.from(new Set(tags.map((tag) => tag.text).filter(Boolean)))
@@ -81,7 +77,7 @@ function NewArticle() {
     }
   }
 
-  const onAdd = () => {
+  const onAddTag = () => {
     setTags((prev) => [...prev, { id: currentTagId, text: '' }])
     setCurrentTagId((prev) => prev + 1)
   }
@@ -144,7 +140,7 @@ function NewArticle() {
             }`}
             type="button"
             disabled={isMutationLoading}
-            onClick={onAdd}
+            onClick={onAddTag}
           >
             Add tag
           </button>
