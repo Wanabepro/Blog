@@ -13,7 +13,7 @@ function Header() {
 
   const onLogout = () => {
     dispatch(resetCredentials())
-    dispatch(api.util.resetApiState())
+    dispatch(api.util.invalidateTags(['Article']))
     localStorage.clear()
   }
 
