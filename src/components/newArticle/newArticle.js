@@ -23,6 +23,7 @@ function NewArticle() {
     handleSubmit,
     errors,
     setValue,
+    resetForm,
     mutate: createArticle,
     isLoading: isMutationLoading,
     isError,
@@ -59,7 +60,13 @@ function NewArticle() {
       setTags(tagList.map((tag, index) => ({ id: index, text: tag })))
       setCurrentTagId(tagList.length)
     }
-  }, [data])
+
+    if (!slug) {
+      resetForm()
+      setTags([])
+      setCurrentTagId(0)
+    }
+  }, [data, slug])
 
   const onSubmit = (data) => {
     const validTags = Array.from(new Set(tags.map((tag) => tag.text).filter(Boolean)))

@@ -17,6 +17,7 @@ function useCustomForm(useMutation, redirectTo, way = []) {
     setError,
     watch,
     setValue,
+    reset: resetForm,
   } = useForm({ mode: 'all' })
 
   const [mutate, { isLoading, isSuccess, data, isError, error, reset }] = useMutation()
@@ -44,6 +45,7 @@ function useCustomForm(useMutation, redirectTo, way = []) {
     setError,
     watch,
     setValue,
+    resetForm,
     mutate,
     isLoading,
     isError,

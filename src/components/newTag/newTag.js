@@ -27,7 +27,7 @@ function NewTag({ id, initialValue, setTags }) {
   return (
     <div className={styles['new-tag']}>
       <input
-        autoFocus
+        autoFocus={!initialValue}
         className={styles['new-tag__input']}
         type="text"
         placeholder="Tag"
