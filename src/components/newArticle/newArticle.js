@@ -40,8 +40,10 @@ function NewArticle() {
     if (isError) {
       if (error.status === 'FETCH_ERROR') {
         setErrorMessage(error.error)
-      } else {
+      } else if (error.data.errors?.message) {
         setErrorMessage(error.data.errors.message)
+      } else {
+        setErrorMessage(error.data)
       }
     }
   }, [isError, error])
@@ -153,7 +155,13 @@ function NewArticle() {
           </button>
           <Button isLoading={isMutationLoading} text="Send" />
         </form>
-        {isError && <Error status={error?.status} message={errorMessage} reset={reset} />}
+        {isError && (
+          <Error
+            status={error?.originalStatus || error?.status}
+            message={errorMessage}
+            reset={reset}
+          />
+        )}
       </>
     )
   }

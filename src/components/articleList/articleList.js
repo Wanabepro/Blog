@@ -14,7 +14,7 @@ function ArticleList() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-  })
+  }, [])
 
   if (isFetching) {
     return <Spinner />
